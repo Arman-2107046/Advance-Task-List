@@ -63,11 +63,12 @@ interface AppState {
 
   setEditText: (text: string) => void;
 
-  setEditIndex: (index: number) => void;
+  setEditIndex: (index: number | null) => void;
 
   openListModal: () => void;
 
   closeListModal: () => void;
+  openWorkspaceModal: () => void;
 
   closeWorkspaceModal: () => void;
 
@@ -143,15 +144,15 @@ export const useStore = create<AppState>((set) => ({
 
   deleteTodo: (index) =>
     set((state) => ({
-      todos: state.todos.filter((_, i) => i === index),
-      dropDownIindex: null,
+      todos: state.todos.filter((_, i) => i !== index),
+      dropdownIndex: null,
     })),
 
   handleEdit: (index) =>
     set((state) => ({
       editIndex: index,
       editText: state.todos[index].text,
-      dropDownIindex: null,
+      dropdownIndex: null,
     })),
 
   handleUpdate: (index) =>
@@ -220,7 +221,7 @@ export const useStore = create<AppState>((set) => ({
 
       return {
         todos: [...state.todos, newTodo],
-        selectedText: "",
+        // selectedText: "",
         todoText: "",
         selectedList: "",
         selectedWorkspace: "",
